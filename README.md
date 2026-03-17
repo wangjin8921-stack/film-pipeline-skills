@@ -55,6 +55,8 @@ skills/
   step-5-director-prompts/
 plugins/
   subagent-shortcuts/
+examples/
+  internal-mg-demo/
 ```
 
 ## Installation
@@ -66,6 +68,14 @@ Copy each folder under `skills/` into your Codex or OpenClaw skills directory.
 ### Plugin
 
 Copy `plugins/subagent-shortcuts` into your OpenClaw plugins directory if you want `/film` orchestration and resume support.
+
+## Examples
+
+- `examples/internal-mg-demo`
+  - A complete internal MG sample project with Step 0 to Step 5 outputs
+  - Includes the MG-specific Step 3 alias file:
+    - `03_step3_motion_design_package.md`
+  - Useful as a reference for expected project shape and output tone
 
 ## Recommended Use
 
