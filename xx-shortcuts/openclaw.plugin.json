@@ -1,0 +1,1 @@
+{"id":"xx-shortcuts","name":"XX Shortcuts","description":"Deterministic slash command for forcing A2A tasks to the PC peer XX","version":"1.0.0","configSchema":{"type":"object","additionalProperties":false,"properties":{}}}

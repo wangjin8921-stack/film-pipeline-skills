@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Film Prompt Builder</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <aside class="sidebar">
+        <div class="brand-block">
+          <div class="eyebrow">FILM BUILDER</div>
+          <h1>/film 请求生成器</h1>
+          <p>
+            先定义目标，再定义结构和内容层，最后补视觉参考与约束。默认输出适合新版
+            <code>/film</code> 工作流的结构化文本。
+          </p>
+        </div>
+
+        <section class="panel preset-panel">
+          <div class="panel-header">
+            <h2>片型预设</h2>
+            <button id="load-example-btn" class="ghost-btn" type="button">加载示例</button>
+          </div>
+          <div id="preset-list" class="preset-list"></div>
+        </section>
+
+        <section class="panel guide-panel">
+          <div class="panel-header">
+            <h2>填写提醒</h2>
+          </div>
+          <div class="guide-list">
+            <div class="guide-item">
+              <div class="guide-title">1. 先写目标，不要先写元素</div>
+              <p>先说观众最后要形成什么认知、感受和品牌判断，再决定该用哪些画面去承载。</p>
+            </div>
+            <div class="guide-item">
+              <div class="guide-title">2. 结构层和内容层要分开想</div>
+              <p>结构层回答“片子怎么推进”，内容层回答“片子要讲哪些世界和信息”。长时长大会开场最怕只有视觉层没有内容层。</p>
+            </div>
+            <div class="guide-item">
+              <div class="guide-title">3. 视觉参考默认只是局部参考</div>
+              <p>粒子、大字标题、数据流、空间装置这类元素放在参考区，默认不会自动定义整条片子，除非你明确要求它统治全片。</p>
+            </div>
+          </div>
+        </section>
+      </aside>
+
+      <main class="main-stage">
+        <section class="panel form-panel">
+          <div class="panel-header">
+            <div>
+              <h2>项目表单</h2>
+              <p class="panel-tip">
+                推荐填写顺序：核心目标 → 结构要求 → 内容层 → 风格方向 → 视觉参考 → 内容世界参考 → 避免事项 → 硬约束。
+              </p>
+            </div>
+            <div class="action-row">
+              <button id="apply-preset-btn" class="secondary-btn" type="button">写入当前预设</button>
+              <button id="clear-btn" class="ghost-btn" type="button">清空</button>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <label class="field span-2">
+              <span>主题</span>
+              <input id="theme" type="text" placeholder="例如：希捷开场视频" />
+            </label>
+
+            <label class="field">
+              <span>片型</span>
+              <select id="video-type"></select>
+            </label>
+
+            <label class="field">
+              <span>平台</span>
+              <input id="platform" type="text" placeholder="例如：会议大屏 / 官网 / 发布会" />
+            </label>
+
+            <label class="field">
+              <span>时长（秒）</span>
+              <input id="duration-seconds" type="number" min="5" max="600" step="1" value="45" />
+            </label>
+
+            <label class="field">
+              <span>目标受众</span>
+              <input id="target-audience" type="text" placeholder="例如：采购企业 / 客户 / 参会嘉宾" />
+            </label>
+
+            <label class="field span-2">
+              <span>核心目标</span>
+              <textarea
+                id="core-goal"
+                rows="3"
+                placeholder="这条片子最终要让观众理解什么、感受到什么、记住什么"
+              ></textarea>
+              <small class="field-note">
+                这里优先写传播目标，而不是镜头元素。适合写“希望观众形成什么认知、感受到什么品牌气场、最后记住什么判断”。
+                如果这一栏写得太像画面清单，后面整条片子会很容易被视觉元素带偏。
+              </small>
+            </label>
+
+            <label class="field span-2">
+              <span>结构要求</span>
+              <textarea
+                id="structure-requirement"
+                rows="3"
+                placeholder="例如：120秒大会开场片，按多段推进处理，至少3到5个内容层与视觉系统接力完成"
+              ></textarea>
+              <small class="field-note">
+                这里写“片子怎么推进”，例如多段推进、章节展开、高潮落点、是否需要多系统接力。
+                不建议在这里写“粒子、标题、logo”这类具体元素，那些更适合放到参考区。
+              </small>
+            </label>
+
+            <div class="field span-2">
+              <span>结构快捷补充</span>
+              <div id="structure-chip-row" class="chip-row chip-row-tight"></div>
+            </div>
+
+            <label class="field span-2">
+              <span>内容层</span>
+              <textarea
+                id="content-layers"
+                rows="3"
+                placeholder="例如：科技抽象层，业务/系统能力层，全球/行业信息层，章节口号推进层，品牌揭幕与收束层"
+              ></textarea>
+              <small class="field-note">
+                这一栏专门写“片子里要承载哪些内容世界”，不是写视觉效果。比如业务系统、全球覆盖、人物操作、机房设备、章节口号、品牌收束。
+                对长时长大会开场尤其重要，它能防止模型把“多内容层”误解成“多种视觉风格”。
+              </small>
+            </label>
+
+            <div class="field span-2">
+              <span>内容层快捷补充</span>
+              <div id="content-chip-row" class="chip-row chip-row-tight"></div>
+            </div>
+
+            <label class="field span-2">
+              <span>风格方向</span>
+              <textarea
+                id="style-direction"
+                rows="3"
+                placeholder="写气质、节奏、调性，不要只写具体画面元素"
+              ></textarea>
+              <small class="field-note">
+                适合写大会开场气质、章节推进、节奏冲击、高级表达、克制科技感这类方向词。
+                这栏负责定义气质和审美取向，不负责规定整条片子的画面素材清单。
+              </small>
+            </label>
+
+            <div class="field span-2">
+              <span>风格快捷补充</span>
+              <div id="style-chip-row" class="chip-row chip-row-tight"></div>
+            </div>
+
+            <label class="field span-2">
+              <span>视觉参考元素</span>
+              <textarea
+                id="reference-visuals"
+                rows="3"
+                placeholder="例如：粒子，大字标题，数据流，空间装置，材料微观；这些只作局部参考"
+              ></textarea>
+              <small class="field-note">
+                这里写画面语汇和视觉元素，比如粒子、数据流、空间装置、材料微观、大字标题。
+                默认理解为局部参考，不会自动变成整片主骨架。
+              </small>
+            </label>
+
+            <div class="field span-2">
+              <span>视觉参考快捷补充</span>
+              <div id="visual-chip-row" class="chip-row chip-row-tight"></div>
+            </div>
+
+            <label class="field span-2">
+              <span>内容世界参考</span>
+              <textarea
+                id="reference-content-world"
+                rows="3"
+                placeholder="例如：机房设备，人物操作，系统界面，全球图示，行业场景"
+              ></textarea>
+              <small class="field-note">
+                这里写“片子可以出现什么内容世界”，比如人物、设备、系统界面、全球地图、行业场景。
+                如果你想让片子更像大会正片而不是纯抽象视觉秀，这一栏非常关键。
+              </small>
+            </label>
+
+            <div class="field span-2">
+              <span>内容世界快捷补充</span>
+              <div id="world-chip-row" class="chip-row chip-row-tight"></div>
+            </div>
+
+            <label class="field span-2">
+              <span>避免事项</span>
+              <textarea
+                id="avoid"
+                rows="3"
+                placeholder="例如：不要整片反复粒子+标题+logo；不要做成空内容的长版短片"
+              ></textarea>
+              <small class="field-note">
+                把你最怕模型走偏的方向直接说出来。尤其适合写“不要只做抽象视觉秀”“不要只换标题词”“不要单一母题撑满全片”。
+              </small>
+            </label>
+
+            <div class="field span-2">
+              <span>避免事项快捷补充</span>
+              <div id="avoid-chip-row" class="chip-row chip-row-tight"></div>
+            </div>
+
+            <label class="field span-2">
+              <span>硬约束</span>
+              <textarea
+                id="hard-constraints"
+                rows="3"
+                placeholder="例如：适配会议大屏；整体高级克制；允许创新但不能廉价"
+              ></textarea>
+              <small class="field-note">
+                这里放真正不能违背的条件，比如屏幕比例、品牌级别、风格边界、是否允许人物/场景/UI混合出现。
+              </small>
+            </label>
+
+            <div class="field span-2">
+              <span>硬约束快捷补充</span>
+              <div id="hard-chip-row" class="chip-row chip-row-tight"></div>
+            </div>
+
+            <label class="field span-2">
+              <span>补充限制</span>
+              <textarea
+                id="constraints"
+                rows="3"
+                placeholder="例如：不要真人，不要实拍，不要复杂3D长镜头，纯MG表达"
+              ></textarea>
+              <small class="field-note">
+                这里补制作约束，比如真人、实拍、3D、复杂镜头、工具限制等。它更偏生产条件，不是创意方向。
+              </small>
+            </label>
+
+            <label class="field span-2">
+              <span>附加要求</span>
+              <textarea
+                id="extra-note"
+                rows="2"
+                placeholder="例如：请按完整 film-pipeline 执行，生成 00 summary 和 Step 1 到 Step 5 全部标准文件。"
+              ></textarea>
+              <small class="field-note">
+                这里一般写流程交付要求，比如是否跑完整 pipeline、是否输出全部标准文件、是否需要中英双版本。
+              </small>
+            </label>
+          </div>
+        </section>
+
+        <section class="panel output-panel">
+          <div class="panel-header">
+            <div>
+              <h2>生成结果</h2>
+              <p class="panel-tip">默认输出可直接发送给 <code>/film</code> 的新版结构化文本。</p>
+            </div>
+            <div class="action-row">
+              <button id="generate-btn" class="primary-btn" type="button">生成提示词</button>
+              <button id="copy-btn" class="secondary-btn" type="button">复制</button>
+              <button id="download-btn" class="ghost-btn" type="button">导出 TXT</button>
+            </div>
+          </div>
+
+          <div class="output-layout">
+            <div class="output-meta panel inset-panel">
+              <div class="inset-eyebrow">当前预设说明</div>
+              <h3 id="preset-title"></h3>
+              <p id="preset-desc"></p>
+              <div class="mini-block">
+                <div class="mini-label">默认结构倾向</div>
+                <div id="preset-structure" class="mini-text"></div>
+              </div>
+              <div class="mini-block">
+                <div class="mini-label">推荐内容层</div>
+                <div id="preset-content" class="mini-text"></div>
+              </div>
+              <div class="mini-block">
+                <div class="mini-label">默认风格方向</div>
+                <div id="preset-style" class="mini-text"></div>
+              </div>
+              <div class="mini-block">
+                <div class="mini-label">默认避免事项</div>
+                <div id="preset-avoid" class="mini-text"></div>
+              </div>
+              <div class="mini-block">
+                <div class="mini-label">执行偏向</div>
+                <div id="preset-execution" class="mini-text"></div>
+              </div>
+            </div>
+
+            <div class="output-box panel inset-panel">
+              <textarea id="result" spellcheck="false"></textarea>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div id="toast" class="toast" hidden>已复制到剪贴板</div>
+    <script src="./app.js"></script>
+  </body>
+</html>

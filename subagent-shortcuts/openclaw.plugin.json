@@ -1,0 +1,11 @@
+{
+  "id": "subagent-shortcuts",
+  "name": "Subagent Shortcuts",
+  "description": "Deterministic slash commands for spawning long-running subagents",
+  "version": "1.0.0",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {}
+  }
+}

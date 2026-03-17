@@ -1,0 +1,277 @@
+{
+    "meta":  {
+                 "lastTouchedVersion":  "2026.3.12",
+                 "lastTouchedAt":  "2026-03-16T06:13:43.998Z"
+             },
+    "update":  {
+                   "channel":  "stable"
+               },
+    "browser":  {
+                    "enabled":  true,
+                    "executablePath":  "/home/node/.cache/ms-playwright/chromium-1208/chrome-linux64/chrome",
+                    "headless":  true,
+                    "noSandbox":  true,
+                    "attachOnly":  false,
+                    "defaultProfile":  "openclaw",
+                    "profiles":  {
+                                     "default":  {
+                                                     "cdpPort":  18810,
+                                                     "driver":  "clawd",
+                                                     "attachOnly":  false,
+                                                     "color":  "1E90FF"
+                                                 },
+                                     "openclaw":  {
+                                                      "cdpPort":  18810,
+                                                      "driver":  "clawd",
+                                                      "attachOnly":  false,
+                                                      "color":  "#1E90FF"
+                                                  }
+                                 }
+                },
+    "models":  {
+                   "mode":  "replace",
+                   "providers":  {
+                                     "minimax-cn":  {
+                                                        "baseUrl":  "https://api.minimaxi.com/anthropic",
+                                                        "apiKey":  "sk-cp-LAH0-qWnQFZXXjyChvpaThH8klVizRcFP7YG6et99rJZrn8ON9NfDVLvrSE5kTtYUgd4d2h7k_8BqZyqaX-t2xJIYNTSui_hyYMj9XQNUPxE9I5qnYCDcO4",
+                                                        "api":  "anthropic-messages",
+                                                        "authHeader":  true,
+                                                        "models":  [
+                                                                       {
+                                                                           "id":  "minimax-m2.1",
+                                                                           "name":  "MiniMax M2.1",
+                                                                           "reasoning":  true,
+                                                                           "input":  [
+                                                                                         "text"
+                                                                                     ],
+                                                                           "contextWindow":  200000,
+                                                                           "maxTokens":  8192
+                                                                       },
+                                                                       {
+                                                                           "id":  "minimax-m2.5",
+                                                                           "name":  "MiniMax M2.5",
+                                                                           "reasoning":  true,
+                                                                           "input":  [
+                                                                                         "text"
+                                                                                     ],
+                                                                           "contextWindow":  200000,
+                                                                           "maxTokens":  8192
+                                                                       }
+                                                                   ]
+                                                    },
+                                     "moonshot":  {
+                                                      "baseUrl":  "https://api.moonshot.cn/v1",
+                                                      "apiKey":  "sk-B6CF18PMeJTkr9McI48o8nUQUbFmANW6a3vZgAcpoKQ8qkUm",
+                                                      "api":  "openai-completions",
+                                                      "models":  [
+                                                                     {
+                                                                         "id":  "kimi-k2.5",
+                                                                         "name":  "Kimi K2.5",
+                                                                         "reasoning":  false,
+                                                                         "input":  [
+                                                                                       "text",
+                                                                                       "image"
+                                                                                   ],
+                                                                         "contextWindow":  256000,
+                                                                         "maxTokens":  8192
+                                                                     }
+                                                                 ]
+                                                  },
+                                     "google":  {
+                                                    "baseUrl":  "https://generativelanguage.googleapis.com/v1",
+                                                    "apiKey":  "AIzaSyBfd1lrCXNESjh5y7zNwFdS4hItSX-ADB0",
+                                                    "api":  "google-generative-ai",
+                                                    "models":  [
+                                                                   {
+                                                                       "id":  "gemini-2.5-flash-image",
+                                                                       "name":  "Gemini 2.5 Flash Image",
+                                                                       "input":  [
+                                                                                     "text",
+                                                                                     "image"
+                                                                                 ],
+                                                                       "contextWindow":  32768,
+                                                                       "maxTokens":  32768
+                                                                   },
+                                                                   {
+                                                                       "id":  "gemini-2.0-flash",
+                                                                       "name":  "Gemini 2.0 Flash",
+                                                                       "input":  [
+                                                                                     "text",
+                                                                                     "image"
+                                                                                 ],
+                                                                       "contextWindow":  1000000,
+                                                                       "maxTokens":  8192
+                                                                   }
+                                                               ]
+                                                }
+                                 }
+               },
+    "agents":  {
+                   "defaults":  {
+                                    "model":  {
+                                                  "primary":  "minimax-cn/MiniMax-M2.1",
+                                                  "fallbacks":  [
+
+                                                                ]
+                                              },
+                                    "models":  {
+                                                   "minimax-cn/minimax-m2.1":  {
+                                                                                   "alias":  "MiniMax-M2.1"
+                                                                               },
+                                                   "minimax-cn/minimax-m2.5":  {
+                                                                                   "alias":  "MiniMax-M2.5"
+                                                                               },
+                                                   "moonshot/kimi-k2.5":  {
+                                                                              "alias":  "Kimi K2.5"
+                                                                          },
+                                                   "google/gemini-2.5-flash-image":  {
+                                                                                         "alias":  "Gemini 2.5 Flash Image"
+                                                                          }
+                                               },
+                                    "workspace":  "/home/node/.openclaw/workspace",
+                                    "memorySearch":  {
+                                                         "enabled":  false,
+                                                         "provider":  "openai"
+                                                     },
+                                    "compaction":  {
+                                                       "mode":  "safeguard"
+                                                   },
+                                    "sandbox":  {
+                                                    "mode":  "off"
+                                                }
+                                }
+               },
+    "commands":  {
+                     "native":  "auto",
+                     "nativeSkills":  "auto",
+                     "restart":  true,
+                     "ownerDisplay":  "raw",
+                     "bash":  true
+                 },
+    "channels":  {
+                     "telegram":  {
+                                      "enabled":  true,
+                                      "commands":  {
+                                                       "native":  "auto",
+                                                       "nativeSkills":  "auto"
+                                                   },
+                                      "dmPolicy":  "allowlist",
+                                      "botToken":  "8708757853:AAGDMfnf9rKr2rA4iMmDu58i57wMNJQ78O0",
+                                      "allowFrom":  [
+                                                        7619254202
+                                                    ],
+                                      "groupPolicy":  "allowlist",
+                                      "streaming":  "partial"
+                                  }
+                 },
+    "gateway":  {
+                    "mode":  "local",
+                    "bind":  "lan",
+                    "controlUi":  {
+                                      "allowedOrigins":  [
+                                                             "http://localhost:18789",
+                                                             "http://127.0.0.1:18789",
+                                                             "http://192.168.1.150:18789",
+                                                             "https://192.168.1.150:9443"
+                                                         ]
+                                  },
+                    "auth":  {
+                                 "mode":  "token",
+                                 "token":  "3805dde9798adc7aa245cf1ea4502333021ec6fc71824a85"
+                             },
+                    "nodes":  {
+                                  "browser":  {
+                                                  "mode":  "auto"
+                                              }
+                              }
+                },
+    "plugins":  {
+                    "allow":  [
+                                  "telegram",
+                                  "memory-lancedb-pro",
+                                  "acpx",
+                                  "a2a-gateway"
+                              ],
+                    "load":  {
+                                 "paths":  [
+                                               "/home/node/.openclaw/workspace/node_modules/memory-lancedb-pro",
+                                               "/home/node/.openclaw/workspace/plugins/a2a-gateway"
+                                           ]
+                             },
+                    "slots":  {
+                                  "memory":  "memory-lancedb-pro"
+                              },
+                    "entries":  {
+                                    "memory-lancedb-pro":  {
+                                                               "enabled":  true,
+                                                               "config":  {
+                                                                              "embedding":  {
+                                                                                                "apiKey":  "${JINA_API_KEY}",
+                                                                                                "model":  "jina-embeddings-v5-text-small",
+                                                                                                "baseURL":  "https://api.jina.ai/v1",
+                                                                                                "dimensions":  1024,
+                                                                                                "normalized":  true
+                                                                                            },
+                                                                              "autoCapture":  true,
+                                                                              "autoRecall":  true,
+                                                                              "retrieval":  {
+                                                                                                "mode":  "hybrid",
+                                                                                                "vectorWeight":  0.7,
+                                                                                                "bm25Weight":  0.3,
+                                                                                                "minScore":  0.45,
+                                                                                                "rerank":  "cross-encoder",
+                                                                                                "rerankProvider":  "jina",
+                                                                                                "rerankApiKey":  "${JINA_API_KEY}",
+                                                                                                "rerankModel":  "jina-reranker-v3",
+                                                                                                "candidatePoolSize":  20
+                                                                                            }
+                                                                          }
+                                                           },
+                                    "acpx":  {
+                                                 "enabled":  true,
+                                                 "config":  {
+                                                                "permissionMode":  "approve-all",
+                                                                "nonInteractivePermissions":  "fail"
+                                                            }
+                                             },
+                                    "a2a-gateway":  {
+                                                        "enabled":  true,
+                                                        "config":  {
+                                                                       "server":  {
+                                                                                      "port":  18800,
+                                                                                      "host":  "0.0.0.0"
+                                                                                  },
+                                                                       "agentCard":  {
+                                                                                         "name":  "OpenClaw-NAS",
+                                                                                         "description":  "NAS OpenClaw A2A",
+                                                                                         "url":  "http://192.168.1.150:18800/a2a/jsonrpc",
+                                                                                         "skills":  [
+                                                                                                        {
+                                                                                                            "id":  "chat",
+                                                                                                            "name":  "chat",
+                                                                                                            "description":  "Chat bridge"
+                                                                                                        }
+                                                                                                    ]
+                                                                                     },
+                                                                       "security":  {
+                                                                                        "inboundAuth":  "none",
+                                                                                        "token":  "69b996c06650d82cea34081e95edb1dbba9bd5734c76e827"
+                                                                                    },
+                                                                       "routing":  {
+                                                                                       "defaultAgentId":  "main"
+                                                                                   },
+                                                                       "peers":  [
+                                                                                     {
+                                                                                         "name":  "XX",
+                                                                                         "agentCardUrl":  "http://192.168.1.11:18800/.well-known/agent-card.json",
+                                                                                         "auth":  {
+                                                                                                      "type":  "bearer",
+                                                                                                      "token":  "fe5f6ad5a9fbf1d629b865c110f6ecfcffa2368bfee3da70"
+                                                                                                  }
+                                                                                     }
+                                                                                 ]
+                                                                   }
+                                                    }
+                                }
+                }
+}

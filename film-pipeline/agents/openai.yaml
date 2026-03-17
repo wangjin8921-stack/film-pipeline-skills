@@ -1,0 +1,4 @@
+interface:
+  display_name: "Film Pipeline"
+  short_description: "Run and rerun the five-step film workflow"
+  default_prompt: "Use $film-pipeline to turn a video idea into Step 1 through Step 5 filmmaking deliverables with checkpoint files."
